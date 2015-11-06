@@ -1,84 +1,80 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "spVMName": {
-            "type": "string"
-        },
-        "location": {
-            "type": "string"
-        },
-        "spModulesURL": {
-            "type": "string"
-        },
-        "spConfigurationFunction": {
-            "type": "string"
-        },
-        "domainName": {
-            "type": "string"
-        },
-        "adminUserName": {
-            "type": "string"
-        },
-        "sharePointSetupUserAccountUserName": {
-            "type": "string"
-        },
-        "sharePointFarmAccountUserName": {
-            "type": "string"
-        },
-        "configDatabaseName": {
-            "type": "string"
-        },
-        "administrationContentDatabaseName": {
-            "type": "string"
-        },
-        "sqlVMName": {
-            "type": "string"
-        },
-        "fqdn": {
-            "type": "string"
-        },
-        "contentDatabaseName": {
-            "type": "string"
-        },
-        "spSiteTemplateName": {
-            "type": "string"
-        },
-        "adminPassword": {
-            "type": "securestring"
-        },
-        "sharePointSetupUserAccountPassword": {
-            "type": "securestring"
-        },
-        "sharePointFarmAccountPassword": {
-            "type": "securestring"
-        },
-        "sharePointFarmPassphrasePassword": {
-            "type": "securestring"
-        },
-        "spVMSize": {
-            "type": "string"
-        },
-        "spAvailabilitySetName": {
-            "type": "string"
-        },
-        "spNicName": {
-            "type": "string"
-        },
-        "spDataDisk": {
-            "type": "string"
-        },
-        "storageAccountName": {
-            "type": "string"
-        },
-        "sharepointFarmName": {
-            "type": "string"
-        },
-        "storageDomain": {
-            "type": "string",
-            "defaultValue": "azurestack.local"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "spVMName": {
+      "type": "string"
     },
+    "location": {
+      "type": "string"
+    },
+    "spModulesURL": {
+      "type": "string"
+    },
+    "spConfigurationFunction": {
+      "type": "string"
+    },
+    "domainName": {
+      "type": "string"
+    },
+    "adminUserName": {
+      "type": "string"
+    },
+    "sharePointSetupUserAccountUserName": {
+      "type": "string"
+    },
+    "sharePointFarmAccountUserName": {
+      "type": "string"
+    },
+    "configDatabaseName": {
+      "type": "string"
+    },
+    "administrationContentDatabaseName": {
+      "type": "string"
+    },
+    "sqlVMName": {
+      "type": "string"
+    },
+    "fqdn": {
+      "type": "string"
+    },
+    "contentDatabaseName": {
+      "type": "string"
+    },
+    "spSiteTemplateName": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "sharePointSetupUserAccountPassword": {
+      "type": "securestring"
+    },
+    "sharePointFarmAccountPassword": {
+      "type": "securestring"
+    },
+    "sharePointFarmPassphrasePassword": {
+      "type": "securestring"
+    },
+    "spVMSize": {
+      "type": "string"
+    },
+    "spAvailabilitySetName": {
+      "type": "string"
+    },
+    "spNicName": {
+      "type": "string"
+    },
+    "spDataDisk": {
+      "type": "string"
+    },
+    "storageAccountName": {
+      "type": "string"
+    },
+    "sharepointFarmName": {
+      "type": "string"
+    }
+  },
   "resources": [
     {
       "apiVersion": "2015-06-15",
@@ -107,7 +103,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('spVMName'),'-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -115,7 +111,7 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),'-1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),'-1.vhd')]"
               },
               "name": "[concat(parameters('spVMName'),'-data-disk1')]",
               "createOption": "empty",
@@ -135,7 +131,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain'))]"
+            "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.core.windows.net')]"
           }
         }
       }

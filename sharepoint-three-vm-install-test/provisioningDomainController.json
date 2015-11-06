@@ -1,48 +1,44 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "location": {
-            "type": "string"
-        },
-        "adVMName": {
-            "type": "string"
-        },
-        "adVMSize": {
-            "type": "string"
-        },
-        "adAvailabilitySetName": {
-            "type": "string"
-        },
-        "adminUsername": {
-            "type": "string"
-        },
-        "adminPassword": {
-            "type": "securestring"
-        },
-        "storageAccountName": {
-            "type": "string"
-        },
-        "adDataDisk": {
-            "type": "string"
-        },
-        "adNicName": {
-            "type": "string"
-        },
-        "adModulesURL": {
-            "type": "string"
-        },
-        "adConfigurationFunction": {
-            "type": "string"
-        },
-        "domainName": {
-            "type": "string"
-        },
-        "storageDomain": {
-            "type": "string",
-            "defaultValue": "azurestack.local"
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string"
     },
+    "adVMName": {
+      "type": "string"
+    },
+    "adVMSize": {
+      "type": "string"
+    },
+    "adAvailabilitySetName": {
+      "type": "string"
+    },
+    "adminUsername": {
+      "type": "string"
+    },
+    "adminPassword": {
+      "type": "securestring"
+    },
+    "storageAccountName": {
+      "type": "string"
+    },
+    "adDataDisk": {
+      "type": "string"
+    },
+    "adNicName": {
+      "type": "string"
+    },
+    "adModulesURL": {
+      "type": "string"
+    },
+    "adConfigurationFunction": {
+      "type": "string"
+    },
+    "domainName": {
+      "type": "string"
+    }
+  },
   "resources": [
     {
       "apiVersion": "2015-06-15",
@@ -71,7 +67,7 @@
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('adVMName'),'-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVMName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -79,7 +75,7 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/', parameters('adDataDisk'),'-1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/', parameters('adDataDisk'),'-1.vhd')]"
               },
               "name": "[concat(parameters('adVMName'),'-data-disk1')]",
               "caching": "None",
@@ -99,7 +95,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain'))]"
+            "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.core.windows.net')]"
           }
         }
       },
