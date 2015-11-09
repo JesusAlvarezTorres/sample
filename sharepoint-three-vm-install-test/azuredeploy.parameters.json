@@ -3,10 +3,10 @@
     "value": "West US"
   },
   "storageAccountType": {
-    "value": "Premium_LRS"
+    "value": "Standard_LRS"
   },
   "storageAccountNewOrExisting": {
-    "value": "new"
+    "value": "existing"
   },
   "adminUsername": {
     "value": "admin123"
@@ -24,6 +24,9 @@
     "value": "admin123sp"
   },
   "sharePointSetupUserAccountPassword": {
+    "value": "#####"
+  },
+  "sqlServerSAPassword": { 
     "value": "#####"
   },
   "sharePointFarmAccountPassword": {
