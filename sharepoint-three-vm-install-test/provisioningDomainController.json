@@ -36,7 +36,11 @@
       "type": "string"
     },
     "domainName": {
-      "type": "string"
+        "type": "string"
+    },
+    "storageDomain": {
+        "type": "string",
+        "defaultValue": "azurestack.local"
     }
   },
   "resources": [
@@ -62,12 +66,12 @@
             "publisher": "MicrosoftWindowsServer",
             "offer": "WindowsServer",
             "sku": "2012-R2-Datacenter",
-            "version": "latest"
+            "version": "1.0.0"
           },
           "osDisk": {
             "name": "osdisk",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('adVMName'),'-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('adVMName'),'-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
@@ -75,7 +79,7 @@
           "dataDisks": [
             {
               "vhd": {
-                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/', parameters('adDataDisk'),'-1.vhd')]"
+                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/', parameters('adDataDisk'),'-1.vhd')]"
               },
               "name": "[concat(parameters('adVMName'),'-data-disk1')]",
               "caching": "None",
@@ -95,7 +99,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.core.windows.net')]"
+            "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.', parameters('storageDomain'))]"
           }
         }
       },

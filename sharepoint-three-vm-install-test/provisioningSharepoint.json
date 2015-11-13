@@ -71,12 +71,6 @@
         "storageAccountName": {
             "type": "string"
         },
-        "osImageSourceContainer": {
-            "type": "string"
-        },
-        "osImageSourceDisk": {
-            "type": "string"
-        },
         "sharepointFarmName": {
             "type": "string"
         },
@@ -85,6 +79,10 @@
         },
         "sharepointInstallSourceFolder": {
             "type": "string"
+        },
+        "storageDomain": {
+            "type": "string",
+            "defaultValue": "azurestack.local"
         }
     },
     "resources": [
@@ -106,22 +104,24 @@
                     "adminPassword": "[parameters('adminPassword')]"
                 },
                 "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "SQLSP",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "1.0.0"
+                    },
                     "osDisk": {
-                        "osType": "Windows",
                         "name": "osdisk",
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage",
-                        "image": {
-                            "uri": "[concat('https://',parameters('storageAccountName'),'.blob.core.windows.net/',parameters('osImageSourceContainer'),'/',parameters('osImageSourceDisk'))]"
-                        },
                         "vhd": {
-                            "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-osdisk.vhd')]"
-                        }
-                    },                    
+                           "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('spVMName'),'-osdisk.vhd')]"
+                         },
+                        "caching": "ReadWrite",
+                         "createOption": "FromImage"
+                    },                   
                     "dataDisks": [
                         {
                             "vhd": {
-                                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),'-1.vhd')]"
+                                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('spVMName'),'-', parameters('spDataDisk'),'-1.vhd')]"
                             },
                             "name": "[concat(parameters('spVMName'),'-data-disk1')]",
                             "createOption": "empty",
@@ -141,7 +141,7 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": "true",
-                        "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.core.windows.net')]"
+                        "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.', parameters('storageDomain'))]"
                     }
                 }
             }

@@ -23,12 +23,6 @@
         "storageAccountName": {
             "type": "string"
         },
-        "osImageSourceContainer": {
-            "type": "string"
-        },
-        "osImageSourceDisk": {
-            "type": "string"
-        },
         "sqlDataDisk": {
             "type": "string"
         },
@@ -53,7 +47,7 @@
         "sharePointSetupUserAccountUserName": {
             "type": "string"
         },
-        "sqlServerSAPassword": { 
+        "sqlServerSAPassword": {
             "type": "securestring"
         },
         "sqlServerServiceAccountPassword": {
@@ -61,6 +55,10 @@
         },
         "sharePointSetupUserAccountPassword": {
             "type": "securestring"
+        },
+        "storageDomain": {
+            "type": "string",
+            "defaultValue": "azurestack.local"
         }
     },
     "resources": [
@@ -82,22 +80,24 @@
                     "adminPassword": "[parameters('adminPassword')]"
                 },
                 "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "SQLSP",
+                        "sku": "2012-R2-Datacenter",
+                        "version": "1.0.0"
+                    },
                     "osDisk": {
-                        "osType": "Windows",
                         "name": "osdisk",
-                        "caching": "ReadWrite",
-                        "createOption": "FromImage",
-                        "image": {
-                            "uri": "[concat('https://',parameters('storageAccountName'),'.blob.core.windows.net/',parameters('osImageSourceContainer'),'/',parameters('osImageSourceDisk'))]"
-                        },
                         "vhd": {
-                            "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/',parameters('sqlVMName'),'-osdisk.vhd')]"
-                        }
+                           "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/',parameters('sqlVMName'),'-osdisk.vhd')]"
+                         },
+                        "caching": "ReadWrite",
+                         "createOption": "FromImage"
                     },
                     "dataDisks": [
                         {
                             "vhd": {
-                                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/', parameters('sqlDataDisk'), '-1.vhd')]"
+                                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/', parameters('sqlDataDisk'), '-1.vhd')]"
                             },
                             "name": "[concat(parameters('sqlVMName'),'-data-disk1')]",
                             "createOption": "empty",
@@ -107,7 +107,7 @@
                         },
                         {
                             "vhd": {
-                                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/vhds/', parameters('sqlLogDisk'), '-1.vhd')]"
+                                "uri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain') ,'/vhds/', parameters('sqlLogDisk'), '-1.vhd')]"
                             },
                             "name": "[concat(parameters('sqlVMName'),'-log-disk1')]",
                             "createOption": "empty",
@@ -127,7 +127,7 @@
                 "diagnosticsProfile": {
                     "bootDiagnostics": {
                         "enabled": "true",
-                        "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.core.windows.net')]"
+                        "storageUri": "[concat('http://',parameters('storageAccountName')diag,'.blob.', parameters('storageDomain'))]"
                     }
                 }
             }
@@ -155,7 +155,7 @@
                         },
                         "SQLSACreds": {
                             "UserName": "sa",
-                            "Password":  "PrivateSettingsRef:SQLSAPassword"
+                            "Password": "PrivateSettingsRef:SQLSAPassword"
                         },
                         "SqlServerServiceAccountcreds": {
                             "UserName": "[parameters('sqlServerServiceAccountUserName')]",

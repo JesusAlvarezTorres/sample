@@ -284,19 +284,9 @@
                 "description": "Resource Group containing existing storage account"
             }
         },
-        "customImageSourceContainer": {
+        "storageDomain": {
             "type": "string",
-            "defaultValue": "myimages",
-            "metadata": {
-                "description": "Name of the storage blob container which holds the target custom image for SharePoint and SQL"
-            }
-        },
-        "customImageName": {
-            "type": "string",
-            "defaultValue": "mycustomimage.vhd",
-            "metadata": {
-                "description": "Name of the vhd image to use as the source for the SQL and SharePoint VMs"
-            }
+            "defaultValue": "azurestack.local"
         }
     },
     "variables": {
@@ -775,12 +765,6 @@
                     "storageAccountName": {
                         "value": "[parameters('storageAccountName')]"
                     },
-                    "osImageSourceContainer": {
-                        "value": "[parameters('customImageSourceContainer')]"
-                    },
-                    "osImageSourceDisk": {
-                        "value": "[parameters('customImageName')]"
-                    },
                     "sqlDataDisk": {
                         "value": "[variables('sqlDataDisk')]"
                     },
@@ -899,12 +883,6 @@
                     },
                     "storageAccountName": {
                         "value": "[parameters('storageAccountName')]"
-                    },
-                    "osImageSourceContainer": {
-                        "value": "[parameters('customImageSourceContainer')]"
-                    },
-                    "osImageSourceDisk": { 
-                        "value": "[parameters('customImageName')]"
                     },
                     "sharepointFarmName": {
                         "value": "[parameters('sharepointFarmName')]"

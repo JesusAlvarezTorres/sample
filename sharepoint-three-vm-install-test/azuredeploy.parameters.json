@@ -6,7 +6,7 @@
     "value": "Standard_LRS"
   },
   "storageAccountNewOrExisting": {
-    "value": "existing"
+    "value": "new"
   },
   "adminUsername": {
     "value": "admin123"
@@ -52,5 +52,8 @@
   },
   "spVMSize": {
     "value": "Standard_D3"
+  },
+  "storageDomain": {
+    "value": "azurestack.local"
   }
 }
