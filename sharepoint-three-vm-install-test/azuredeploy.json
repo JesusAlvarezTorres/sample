@@ -692,6 +692,9 @@
                     },
                     "domainName": {
                         "value": "[parameters('domainName')]"
+                    },
+                    "storageDomain": { 
+                        "value": "[parameters('storageDomain')]"
                     }
                 }
             }
@@ -797,6 +800,9 @@
                     },
                     "sharePointSetupUserAccountPassword": {
                         "value": "[parameters('sharePointSetupUserAccountPassword')]"
+                    },
+                    "storageDomain": { 
+                        "value": "[parameters('storageDomain')]"
                     }
                 }
             }
@@ -886,6 +892,9 @@
                     },
                     "sharepointFarmName": {
                         "value": "[parameters('sharepointFarmName')]"
+                    },
+                    "storageDomain": { 
+                        "value": "[parameters('storageDomain')]"
                     }
                 }
             }

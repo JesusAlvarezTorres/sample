@@ -135,7 +135,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.', parameters('storageDomain'))]"
+            "storageUri": "[concat('http://',parameters('storageAccountName'),'diag.blob.', parameters('storageDomain'))]"
           }
         }
       }
