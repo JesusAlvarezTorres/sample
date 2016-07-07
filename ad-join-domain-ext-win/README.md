@@ -5,6 +5,19 @@
 https://github.com/Azure/AzureStack-QuickStart-Templates/tree/master/ad-non-ha
 2. The template asumes that the VM to be created will be connected to a subnet that can access the target domain controller
 
+## Parameters
+- vmName: Name of the Virtual Machine to be created. 
+- adminUsername: Username for the Virtual Machine local administrator. 
+- adminPassword: Password for the Virtual Machine local administrator. 
+- dcVNetName: Name of the extisting VNet that contains the domain controller
+- dcSubnetName: Name of the existing subnet that contains the domain controller
+- domainToJoin: FQDN of the AD domain to join
+- ouToJoin: Specifies an AD organizational unit (OU) for the computer to join. Enter the full distinguished name of the OU in quotation marks. 
+  Example: 'OU=testOU; DC=domain; DC=Domain; DC=com'. This value can be empty
+- domainJoinOptions: Set of bit flags that define the join options. Default value of 3 is a combination of NETSETUP_JOIN_DOMAIN (0x00000001) & NETSETUP_ACCT_CREATE (0x00000002) 
+  i.e. will join the domain and create the account on the domain. For more information see https://msdn.microsoft.com/en-us/library/aa392154(v=vs.85).aspx
+- domainUserName: Username of the domain account to be used for joining the domain
+- domainPassword: Password of the domain account to be used for joining the domain
 
 ## Deployment steps
 1. Deploy to azure stack portal using custom deployment.

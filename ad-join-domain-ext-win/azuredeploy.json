@@ -12,15 +12,23 @@
         "adminUsername": {
             "type": "string",
             "metadata": {
-                "description": "Username for the Virtual Machine."
+                "description": "Username for the Virtual Machine local administrator"
             },
             "defaultValue": "Administrator"
         },
         "adminPassword": {
             "type": "securestring",
             "metadata": {
-                "description": "Password for the Virtual Machine."
-            }
+                "description": "Password for the Virtual Machine local administrator. Default value is subscription id"
+            },
+            "defaultValue": "[concat('Subscription#',substring(resourcegroup().id,15,36))]"
+        },
+        "dcResourceGroupName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the resource group that cointains the domain controller"
+            },
+            "defaultValue": "ContosoRG"
         },
         "dcVNetName": {
             "type": "string",
@@ -43,10 +51,10 @@
             },
             "defaultValue": "contoso.com"
         },
-        "ouPath": {
+        "ouToJoin": {
             "type": "string",
             "metadata": {
-                "description": "Specifies an organizational unit (OU) for the domain account. Enter the full distinguished name of the OU in quotation marks. Example: 'OU=testOU; DC=domain; DC=Domain; DC=com. This value can be empty"
+                "description": "Specifies an organizational unit (OU) for the domain account. Enter the full distinguished name of the OU in quotation marks. Example: 'OU=testOU; DC=domain; DC=Domain; DC=com'. This value can be empty"
             },
             "defaultValue": ""
         },
@@ -73,7 +81,7 @@
     },
     "variables": {
         "vmExtensionName": "JsonADDomainExtension",
-        "storageAccountName": "[toLower(concat(parameters('vmName'),'sa'))]",
+        "storageAccountName": "[toLower(concat(resourceGroup().name,'sa'))]",
         "storageAccountType": "Standard_LRS",
         "vmStorageAccountContainerName": "vhds",
         "vmSize": "Standard_A2",
@@ -83,9 +91,8 @@
         "imageVersion": "latest",
         "OSDiskName": "osdisk",
         "publicIPAddressName": "[concat(parameters('vmName'),'-pip')]",
-        "extDNSAddress": "192.168.100.2",
         "nicName": "[concat(parameters('vmName'),'-nic')]",
-        "vnetID": "[resourceId(resourceGroup().name, 'Microsoft.Network/virtualNetworks', parameters('dcVNetName'))]",
+        "vnetID": "[resourceId(parameters('dcResourceGroupName'), 'Microsoft.Network/virtualNetworks', parameters('dcVNetName'))]",
         "subnetRef": "[concat(variables('vnetID'),'/subnets/', parameters('dcSubnetName'))]"
     },
     "resources": [
@@ -119,9 +126,6 @@
                 "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"                
             ],
             "properties": {
-                "dnsSettings": {
-                    "dnsServers": [ "[variables('extDNSAddress')]" ]
-                },
                 "ipConfigurations": [
                     {
                         "name": "ipconfig1",
@@ -201,7 +205,7 @@
                 "typeHandlerVersion": "1.3",
                 "settings": {
                     "Name": "[parameters('domainToJoin')]",
-                    "OUPath": "[parameters('ouPath')]",
+                    "OUPath": "[parameters('ouToJoin')]",
                     "User": "[concat(parameters('domainToJoin'), '\\', parameters('domainUserName'))]",
                     "Restart": "true",
                     "Options": "[parameters('domainJoinOptions')]"

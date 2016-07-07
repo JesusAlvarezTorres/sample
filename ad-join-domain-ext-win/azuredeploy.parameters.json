@@ -20,7 +20,7 @@
         "domainToJoin": {
             "value": "contoso.com"
         },
-        "ouPath": {
+        "ouToJoin": {
             "value": ""
         },
         "domainJoinOptions": { 
