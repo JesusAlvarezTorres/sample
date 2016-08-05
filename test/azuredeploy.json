@@ -15,7 +15,7 @@
         "LogToFileScriptName": "LogToFile.psm1",
         "LogToFileScriptURL": "[concat(variables('assetLocation'),'/CommonScripts/',variables('LogToFileScriptName'))]",
         "DownloadLTScriptName": "DownloadLoadTestPackage.ps1",
-        "DownloadLTScriptURL": "[concat(variables('assetLocation'),'/CommonScripts/',variables('DownloadLTScriptName'))]",
+        "DownloadLTScriptURL": "[concat(variables('assetLocation'),'/',variables('DownloadLTScriptName'))]",
         "PrepareLTForRunScriptName": "TestControllerPrepareLoadTest.ps1",
         "PrepareLTForRunScriptURL": "[concat(variables('assetLocation'),'/TestControllerScripts/',variables('PrepareLTForRunScriptName'))]",
         "StartLoadTestRunScriptName": "TestControllerStartLoadTestRun.ps1",
